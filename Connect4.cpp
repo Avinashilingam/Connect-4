@@ -50,7 +50,7 @@ void gamePlay(Player &p1, Player &p2)
 	   -- pos;
 	   bool placed = false;
 
-	   for(int i=0; i<6;i++){
+	   for(int i=0; i<6;++i){
 		   if((i==6 || board[pos][i+1]!= '')&&!placed){
 			   if(turn % 2 == 0 ){
 				   board[pos][i] = p1.piece;
@@ -79,9 +79,31 @@ void gamePlay(Player &p1, Player &p2)
 void printBoard(vector<vector<char>> &board)
 {
 	string line = "";
-	for(int i=0; i<6; i++){
-		
+	for(int i=0; i<6; ++i){
+		printf("%c %c %c %c %c %c %c \n", board[0][i],board[1][i],board[2][i],board[3][i],board[4][i],board[5][i],board[6][i]);
 	}
+
+	printf("1 2 3 4 5 6 7 \n\n\n");
+}
+
+bool gameOver(vector<vector<char>> &board,int play){
+	vector<char> vertical;
+	vector<char> horizontal;
+	vector<char> DR;
+	vector<char> UR;
+
+	int row = 10;
+	bool rowfound = false;
+	bool full = true;
+	for(int i=0; i<7; ++i){
+		for(int j=0; j<6; ++j){
+			if(board[i][j] ==' '){
+                full = false;
+			}
+		}
+	}
+
+	for(int i=0 i<6;)
 }
 
 string makePlayer()
