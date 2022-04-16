@@ -39,7 +39,7 @@ void gamePlay(Player &p1, Player &p2)
 {
 	int n = 7;
 	int m = 6;
-	vector<vector<char>>board(n, vector<char> (m,''));
+	vector<vector<char>>board(n, vector<char> (m,' '));
 	int pos = 0;
 	int turn = 0;
 		while(!gameOver(board,pos))
@@ -51,7 +51,7 @@ void gamePlay(Player &p1, Player &p2)
 	   bool placed = false;
 
 	   for(int i=0; i<6;++i){
-		   if((i==6 || board[pos][i+1]!= '')&&!placed){
+		   if((i==6 || board[pos][i+1]!= ' 1')&&!placed){
 			   if(turn % 2 == 0 ){
 				   board[pos][i] = p1.piece;
 			   }
@@ -86,7 +86,7 @@ void printBoard(vector<vector<char>> &board)
 	printf("1 2 3 4 5 6 7 \n\n\n");
 }
 
-bool gameOver(vector<vector<char>> &board,int play){
+bool gameOver(vector<vector<char>> &board,int pos){
 	vector<char> vertical;
 	vector<char> horizontal;
 	vector<char> DR;
@@ -103,7 +103,41 @@ bool gameOver(vector<vector<char>> &board,int play){
 		}
 	}
 
-	for(int i=0 i<6;)
+	for(int i=0; i<6; ++i){
+		vertical.push_back(board[pos][i]);
+		if(!rowfound && board[pos][i] != ' '){
+			row = i;
+			rowfound = true;
+		}
+	}
+
+	int DRstart = row - pos;
+	int URstart = row + pos;
+	for(int i=0 ; i<7 ; ++i){
+		horizontal.push_back(board[pos][i]);
+		if(DRstart + i >= 0){
+			DR.push_back(board[i][DRstart+i]);
+		}
+		if(URstart - i <= 5){
+			UR.push_back(board[i][URstart-i]);
+		}
+
+	}
+	return (checkLine(vertical) || checkLine(horizontal) || checkLine(DR) || checkLine(UR) || full);
+}
+
+bool checkLine(vector <char> line)
+{
+	if(line.size() < 4){
+		return false;
+	}
+
+	for(int i=0; i<int(line.size())-3; ++i){
+		if(line[i]!=' ' && line[i]==line[i+1] && line[i]==line[i+2] && line[i]==line[i+3]){
+			return true;
+		}
+	}
+	return false;
 }
 
 string makePlayer()
